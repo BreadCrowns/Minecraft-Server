@@ -3,212 +3,192 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Secret World Inside the Screen - How Our Minecraft Server Works</title>
+<title>The Secret World Inside the Screen: How Our Minecraft Server Works</title>
 <style>
   :root {
-    --bg-page: #0b0f19;
-    --card-bg: #141e33;
-    --card-border: #22324e;
+    --bg-page: #0a0e17;
+    --card-bg: #131c2e;
+    --card-border: #1e2c45;
     --text-primary: #f8fafc;
     --text-secondary: #94a3b8;
+    --text-prose: #cbd5e1;
     --accent-blue: #38bdf8;
-    --accent-green: #34d399;
-    --accent-purple: #c084fc;
+    --accent-emerald: #34d399;
     --accent-gold: #fbbf24;
-    --accent-orange: #fb923c;
+    --accent-amber: #f59e0b;
+    --accent-purple: #c084fc;
+    --accent-rose: #fb7185;
     --box-analogy: #1c1917;
-    --box-tech: #0c192c;
-    --box-vocab: #1e1b4b;
+    --box-tech: #0c1829;
+    --box-vocab: #1a1638;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
-    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    font-family: 'Georgia', 'Cambria', serif;
     background-color: var(--bg-page);
     color: var(--text-primary);
-    line-height: 1.8;
+    line-height: 1.85;
     padding: 40px 20px;
+    font-size: 1.12rem;
   }
   .container {
-    max-width: 940px;
+    max-width: 900px;
     margin: 0 auto;
   }
   header {
     text-align: center;
-    padding: 50px 30px 40px;
+    padding: 55px 35px 45px;
     background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%);
-    border-radius: 20px;
+    border-radius: 24px;
     border: 1px solid #3730a3;
-    margin-bottom: 45px;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+    margin-bottom: 50px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
   }
   h1 {
-    font-size: 2.6rem;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-size: 2.7rem;
     color: var(--accent-blue);
-    margin-bottom: 12px;
+    margin-bottom: 14px;
     letter-spacing: -0.02em;
+    font-weight: 800;
   }
   .subtitle {
-    font-size: 1.3rem;
-    color: var(--accent-green);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-size: 1.35rem;
+    color: var(--accent-emerald);
     font-weight: 600;
   }
-  .intro-box {
+  .book-intro {
     margin-top: 25px;
-    background: rgba(15, 23, 42, 0.8);
+    background: rgba(15, 23, 42, 0.85);
     border: 1px solid #334155;
-    border-radius: 12px;
-    padding: 24px;
+    border-radius: 14px;
+    padding: 26px 30px;
     text-align: left;
-    color: #cbd5e1;
-    font-size: 1.1rem;
-    line-height: 1.8;
+    color: var(--text-prose);
+    font-size: 1.15rem;
   }
-  .three-lenses {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 15px;
+  .cast-ribbon {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
     margin-top: 20px;
-  }
-  .lens-badge {
-    background: #1e293b;
-    border: 1px solid #475569;
-    border-radius: 8px;
-    padding: 12px 16px;
+    padding-top: 15px;
+    border-top: 1px solid #22324e;
+    font-family: 'Segoe UI', system-ui, sans-serif;
     font-size: 0.95rem;
-    color: #e2e8f0;
   }
-  .lens-badge strong {
-    display: block;
-    color: var(--accent-gold);
-    margin-bottom: 4px;
+  .cast-tag {
+    background: #1e293b;
+    border: 1px solid #3b82f6;
+    border-radius: 20px;
+    padding: 4px 14px;
+    color: #e2e8f0;
   }
   .chapter-card {
     background-color: var(--card-bg);
     border: 1px solid var(--card-border);
-    border-radius: 18px;
-    padding: 35px 40px;
-    margin-bottom: 40px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    border-radius: 20px;
+    padding: 40px 45px;
+    margin-bottom: 45px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
   }
   .chapter-header {
     border-bottom: 2px solid #22324e;
-    padding-bottom: 14px;
-    margin-bottom: 22px;
+    padding-bottom: 16px;
+    margin-bottom: 25px;
   }
-  .chapter-tag {
-    font-size: 0.85rem;
+  .chapter-number {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-size: 0.9rem;
     font-weight: 800;
     color: var(--accent-gold);
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.12em;
     display: block;
-    margin-bottom: 4px;
+    margin-bottom: 5px;
   }
   .chapter-title {
-    font-size: 1.7rem;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-size: 1.85rem;
     color: #ffffff;
     font-weight: 700;
+    line-height: 1.3;
   }
   .chapter-subtitle {
-    font-size: 1.05rem;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-size: 1.1rem;
     color: var(--accent-blue);
-    margin-top: 4px;
+    margin-top: 6px;
+    font-style: italic;
   }
-  .pedagogy-block {
+  p {
+    margin-bottom: 22px;
+    color: var(--text-prose);
+  }
+  .narrative-callout {
     border-radius: 12px;
-    padding: 20px 24px;
-    margin: 20px 0;
+    padding: 22px 28px;
+    margin: 25px 0;
+    font-size: 1.08rem;
   }
-  .block-analogy {
+  .callout-analogy {
     background: var(--box-analogy);
-    border-left: 5px solid var(--accent-orange);
+    border-left: 5px solid var(--accent-amber);
   }
-  .block-tech {
+  .callout-tech {
     background: var(--box-tech);
     border-left: 5px solid var(--accent-blue);
   }
-  .block-vocab {
+  .callout-vocab {
     background: var(--box-vocab);
     border-left: 5px solid var(--accent-purple);
   }
-  .block-title {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 1.15rem;
+  .callout-label {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-size: 1rem;
     font-weight: 700;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
   }
-  .title-analogy { color: var(--accent-orange); }
-  .title-tech { color: var(--accent-blue); }
-  .title-vocab { color: var(--accent-purple); }
+  .label-analogy { color: var(--accent-amber); }
+  .label-tech { color: var(--accent-blue); }
+  .label-vocab { color: var(--accent-purple); }
 
-  .diagram-box {
+  .diagram-flow {
     background: #060911;
     border: 1px solid #1e293b;
-    border-radius: 10px;
-    padding: 16px 20px;
-    font-family: Consolas, monospace;
-    font-size: 0.92rem;
+    border-radius: 12px;
+    padding: 20px 24px;
+    font-family: 'Consolas', monospace;
+    font-size: 0.98rem;
     color: #93c5fd;
+    margin: 24px 0;
+    line-height: 1.7;
     overflow-x: auto;
-    margin: 18px 0;
-    line-height: 1.6;
   }
-  ul, ol {
-    margin-left: 24px;
-    margin-top: 8px;
-    margin-bottom: 8px;
-  }
-  li {
-    margin-bottom: 8px;
-    color: #cbd5e1;
-  }
-  .vocab-list dt {
-    color: #e9d5ff;
-    font-weight: bold;
-    font-size: 1.05rem;
-    margin-top: 10px;
-  }
-  .vocab-list dd {
-    margin-left: 20px;
-    color: #cbd5e1;
-    margin-bottom: 12px;
-  }
-  .minecraft-impact {
-    background: rgba(6, 78, 59, 0.4);
-    border: 1px dashed var(--accent-green);
-    border-radius: 10px;
-    padding: 14px 18px;
-    margin-top: 18px;
+  .gameplay-impact {
+    background: rgba(6, 78, 59, 0.35);
+    border: 1px dashed var(--accent-emerald);
+    border-radius: 12px;
+    padding: 18px 24px;
+    margin-top: 24px;
     color: #d1fae5;
+    font-size: 1.05rem;
   }
-  .minecraft-impact strong {
-    color: var(--accent-green);
-  }
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 20px 0;
-    font-size: 0.95rem;
-  }
-  th, td {
-    padding: 12px 16px;
-    border: 1px solid #22324e;
-    text-align: left;
-  }
-  th {
-    background: #060911;
-    color: var(--accent-blue);
-    font-weight: 700;
+  .gameplay-impact strong {
+    color: var(--accent-emerald);
+    font-family: 'Segoe UI', system-ui, sans-serif;
   }
   footer {
     text-align: center;
-    padding: 40px 10px;
+    padding: 45px 15px;
     color: var(--text-secondary);
     font-size: 0.95rem;
     border-top: 1px solid #1e293b;
-    margin-top: 50px;
+    margin-top: 60px;
+    font-family: 'Segoe UI', system-ui, sans-serif;
   }
 </style>
 </head>
@@ -218,24 +198,23 @@
 
   <header>
     <h1>📘 The Secret World Inside the Screen</h1>
-    <div class="subtitle">An Illustrated Technology Guide for Curious Gamers and Future Engineers</div>
-    <div class="intro-box">
-      When you hold a Nintendo Switch, an iPad, or a controller, Minecraft feels like a real place. When you tilt the stick, your legs walk forward. When you tap the screen, your hand swings a pickaxe. The blocks crumble, sheep wander through grassy fields, and the sun sets behind distant mountains.<br><br>
-      <strong>But here is the great secret:</strong> Your device doesn't actually know if there is a diamond under that stone block. It is only showing you a live video projection of a world that lives somewhere else entirely! In our house, a dedicated computer is running day and night. That computer is the <strong>Master World Brain</strong>.<br><br>
-      To help understand how every piece fits together, each chapter in this textbook explores the technology through three different lenses:
-      <div class="three-lenses">
-        <div class="lens-badge">
-          <strong>1. 🎨 The Everyday Picture</strong>
-          A familiar real-world comparison you already know from daily life.
-        </div>
-        <div class="lens-badge">
-          <strong>2. 🔬 Under the Microscope</strong>
-          The mechanical and electrical science of what physically happens.
-        </div>
-        <div class="lens-badge">
-          <strong>3. 📐 The Engineer's Vocabulary</strong>
-          The real professional technical terms used by computer scientists.
-        </div>
+    <div class="subtitle">A Story of Five Friends, Invisible Waves, and the Master World Brain</div>
+    <div class="book-intro">
+      <p>
+        On a bright Saturday morning, five friends across town are getting ready for an epic Minecraft adventure. In his living room, Ben sits cross-legged on the rug, holding a wireless controller in his hands. Three miles away, Harrison puts on his gaming headset and boots up his Xbox. Across the neighborhood, Andy props his iPad against a cereal box at the kitchen counter. Over on his family couch, River powers up his PlayStation 5. And sitting at his bedroom desk, Kai slides his computer mouse across his mousepad, staring at his PC monitor.
+      </p>
+      <p>
+        To Ben and his friends, it feels like they are all standing together in the exact same room. When Ben swings his diamond sword, Harrison sees the blade sparkle on his television screen. When Andy places a wooden torch on a stone wall, River watches the cave light up on his PlayStation. When Kai speaks in game chat from his computer, his words appear instantly on everyone's screens.
+      </p>
+      <p>
+        Yet if you looked at the devices in their hands, you would find an astonishing puzzle: none of these gadgets are the same brand, none of them run the same software, and none of them are plugged into each other. The entire universe the boys are exploring lives inside a single dedicated computer running in Ben's house. That computer is the <strong>Master World Brain</strong>. This is the true story of how that world comes alive!
+      </p>
+      <div class="cast-ribbon">
+        <span class="cast-tag">🎮 Ben: Nintendo Switch (Wireless)</span>
+        <span class="cast-tag">🎮 Harrison: Xbox Series X</span>
+        <span class="cast-tag">📱 Andy: iPad</span>
+        <span class="cast-tag">🎮 River: PlayStation 5</span>
+        <span class="cast-tag">💻 Kai: PC (Java Edition)</span>
       </div>
     </div>
   </header>
@@ -243,580 +222,421 @@
   <!-- Chapter 1 -->
   <div class="chapter-card">
     <div class="chapter-header">
-      <span class="chapter-tag">Chapter 1</span>
-      <h2 class="chapter-title">The Magic Airwaves</h2>
-      <div class="chapter-subtitle">How a Button Tap Becomes an Invisible Radio Message</div>
+      <span class="chapter-number">Chapter 1</span>
+      <h2 class="chapter-title">The First Invisible Leap</h2>
+      <div class="chapter-subtitle">From Ben's Fingertips to the Switch Console</div>
     </div>
 
-    <div class="diagram-box">
-[ Your Finger ] ──► [ Rubber Pad ] ──► [ Circuit Closes (3.3V) ] ──► [ Antenna Shakes (5 GHz) ]
+    <p>
+      Our adventure begins with Ben's right hand. Ben and his friends are standing in the safe welcome lobby of the server, getting ready to step into the dangerous Survival dimension. Ben spots a wooden button on a stone pillar and decides to push it. His right index finger squeezes down on the trigger of his wireless controller.
+    </p>
+
+    <div class="narrative-callout callout-analogy">
+      <div class="callout-label label-analogy">🎨 The Everyday Picture: The Playground Walkie-Talkie</div>
+      Imagine you and your friend are playing hide-and-seek with walkie-talkies. When you push the talk button and speak, your voice does not travel through a physical string. Your voice is turned into an invisible radio whisper that flies through playground slides, trees, and fences straight into your friend's speaker. Your game controller is doing the exact same thing—except instead of sending spoken words like "I see you!", it sends super-fast numbers like "He pressed Jump!"
     </div>
 
-    <div class="pedagogy-block block-analogy">
-      <div class="block-title title-analogy">🎨 The Everyday Picture: The Playground Walkie-Talkie</div>
-      <p>
-        Imagine you and your friend are playing hide-and-seek with walkie-talkies. When you push the talk button and speak, your voice doesn't travel through a physical string. Your voice is turned into an invisible radio whisper that flies through playground slides, trees, and fences straight into your friend's speaker.
-      </p>
-      <p>
-        Your game controller is doing the exact same thing—except instead of sending spoken words like <em>"I see you!"</em>, it sends super-fast numbers like <em>"He pressed Jump!"</em>
-      </p>
+    <p>
+      Beneath the colorful plastic shell of the controller lies a hidden world of electricity. Underneath the button sits a small dome of flexible black rubber coated with conductive carbon. When Ben pushes the trigger, that rubber dome squashes down flat against a green circuit board, bridging a tiny gap between two copper tracks. 
+    </p>
+    <p>
+      The moment those copper tracks touch, electricity at three point three volts surges through the gap, completing an electrical loop called a <strong>circuit</strong>. If Ben lifts his finger, the rubber pops back up, the gap opens, and the electricity stops flowing.
+    </p>
+    <p>
+      Just millimeters away from the button, a fingernail-sized silicon computer chip is watching that circuit like a hawk. In the language of computers, when electricity flows through a circuit, the chip calls it a <strong>one</strong>. When the electricity stops, the chip calls it a <strong>zero</strong>. These individual ones and zeros are the basic alphabet of all computers, called <strong>binary digits</strong>, or <strong>bits</strong> for short.
+    </p>
+
+    <div class="diagram-flow">
+Ben's Finger Presses Trigger ──► Rubber Switch Closes Circuit (3.3 Volts)
+  └──► Microchip Encodes Binary Bits (1s and 0s)
+         └──► Antenna Shakes Electrons 2.4 Billion Times a Second (Bluetooth)
+                └──► Radio Wave Flies Across Carpet to the Switch Console
     </div>
 
-    <div class="pedagogy-block block-tech">
-      <div class="block-title title-tech">🔬 Under the Microscope: What Physically Happens</div>
-      <ul>
-        <li><strong>The Electric Switch:</strong> Underneath every plastic button on your controller is a tiny disc of flexible conductive rubber hovering just above a pair of copper traces on a circuit board. When your finger pushes the button down, the rubber connects the two copper traces together. This closes an <strong>electrical circuit</strong>. Electricity at 3.3 volts suddenly flows through the gap.</li>
-        <li><strong>The Binary Code:</strong> A tiny computer chip inside the controller feels that surge of electricity. In the computer world, voltage flowing equals a <strong><code>1</code></strong>, and no voltage equals a <strong><code>0</code></strong>. These <code>1</code>s and <code>0</code>s are called <strong>bits</strong>. The chip strings these bits together into a miniature digital envelope called a <strong>packet</strong>.</li>
-        <li><strong>Shaking the Radio Waves:</strong> The chip sends this packet to a microscopic metal antenna inside your device. The chip shakes electrical particles (electrons) back and forth inside the antenna at an unbelievable speed: <strong>5 billion times every single second (5 GHz)</strong>! This creates ripples in the electromagnetic field that fly through the room at the speed of light.</li>
-      </ul>
-    </div>
-
-    <div class="pedagogy-block block-vocab">
-      <div class="block-title title-vocab">📐 The Engineer's Vocabulary</div>
-      <dl class="vocab-list">
-        <dt>Circuit</dt>
-        <dd>A complete loop through which electricity can flow. When you let go of the button, the circuit breaks open, stopping the flow.</dd>
-        <dt>Binary</dt>
-        <dd>The two-symbol language of computers (<code>0</code> and <code>1</code>). Everything on screen—swords, creepers, diamonds—is made from millions of <code>0</code>s and <code>1</code>s.</dd>
-        <dt>Packet</dt>
-        <dd>A compact bundle of digital data sent across a network. It includes the message, who sent it, and who should receive it.</dd>
-        <dt>Frequency (Gigahertz / GHz)</dt>
-        <dd>How many times a wave vibrates per second. "5 GHz" means 5,000,000,000 vibrations every second!</dd>
-      </dl>
-    </div>
-
-    <div class="minecraft-impact">
-      🎮 <strong>Why this matters in Minecraft:</strong> If your Wi-Fi signal is weak, packets get dropped in the air. When that happens, you experience <em>input delay</em>—you press Jump, but your character hops half a second too late!
-    </div>
+    <p>
+      The chip in Ben's controller strings these bits together into a miniature digital postcard called a <strong>packet</strong>. Written into the numbers of this packet is a simple message: the player holding controller number one just squeezed the trigger button.
+    </p>
+    <p>
+      Now the controller faces its first challenge: it has no wires connected to anything! To get that packet out of Ben's hands and into the Nintendo Switch console resting on the shelf by the television, the controller turns to a microscopic metal antenna inside its handle. The controller's chip sends the digital packet into the antenna by shaking electrical particles, called electrons, back and forth at an unbelievable speed: two point four billion times every single second.
+    </p>
+    <p>
+      When electrons shake that fast, they create invisible ripples in the air called electromagnetic radio waves. Because these radio waves vibrate at two point four gigahertz, engineers call this short-range wireless system <strong>Bluetooth</strong>. The invisible Bluetooth wave ripples across the living room carpet, traveling at the speed of light—one hundred and eighty-six thousand miles per second. In less than three one-thousandths of a second, the wave hits the antenna of the Nintendo Switch console sitting by the TV dock. The console's antenna absorbs the wave, turns it back into electrical ones and zeros, and realizes: Ben just pressed the trigger!
+    </p>
   </div>
 
   <!-- Chapter 2 -->
   <div class="chapter-card">
     <div class="chapter-header">
-      <span class="chapter-tag">Chapter 2</span>
-      <h2 class="chapter-title">The House Post Office</h2>
-      <div class="chapter-subtitle">How the Router Directs Traffic to the Right Screen</div>
+      <span class="chapter-number">Chapter 2</span>
+      <h2 class="chapter-title">The Living Room Airwaves</h2>
+      <div class="chapter-subtitle">From the Console to the Wi-Fi Router</div>
     </div>
 
-    <div class="diagram-box">
-[ Ben's Switch: 192.168.1.185 ] ──\
-[ Mom's Phone:  192.168.1.120 ] ───► [ THE ROUTER ] ──(Ethernet Cable)──► [ Server PC: 192.168.1.191 ]
-[ Living Room TV: 192.168.1.50 ] ──/
+    <p>
+      Now the Nintendo Switch console has Ben's message, but the console cannot change the Minecraft world by itself. The console is what computer scientists call a <strong>client</strong>. Think of a client like an airplane cockpit filled with steering controls and video monitors: it listens to the pilot's hands and shows a pretty picture out the window, but it doesn't build the mountains or generate the weather.
+    </p>
+    <p>
+      To tell the Master World Brain what Ben wants to do, the Switch console must send a message across the house to the home router.
+    </p>
+
+    <div class="narrative-callout callout-analogy">
+      <div class="callout-label label-analogy">🎨 The Everyday Picture: The School Mail Cubbies</div>
+      Think of your school classroom. In the back of the room is a wall of wooden cubbies. Every student has their name taped to their own cubby: Ben, Sarah, Alex, and Leo. When the teacher hands out permission slips, she doesn't throw them into the air and hope they land on the right desk. She walks over to the cubbies and puts each paper into the exact slot with that student's name on it. In our house, the Wi-Fi Router is like that teacher, and every tablet, laptop, and game console has its own digital cubby.
     </div>
 
-    <div class="pedagogy-block block-analogy">
-      <div class="block-title title-analogy">🎨 The Everyday Picture: The School Mail Cubbies</div>
-      <p>
-        Think of your school classroom. In the back of the room is a wall of wooden cubbies. Every student has their name taped to their own cubby: Ben, Sarah, Alex, and Leo.
-      </p>
-      <p>
-        When the teacher hands out permission slips, she doesn't throw them into the air and hope they land on the right desk. She walks over to the cubbies and puts each paper into the exact slot with that student's name on it. In our house, the <strong>Wi-Fi Router</strong> is that teacher!
-      </p>
-    </div>
-
-    <div class="pedagogy-block block-tech">
-      <div class="block-title title-tech">🔬 Under the Microscope: What Physically Happens</div>
-      <ul>
-        <li><strong>Catching the Wave:</strong> The router's antennas catch the radio wave from your controller and convert it back into electrical voltages representing <code>1</code>s and <code>0</code>s.</li>
-        <li><strong>The Permanent Serial Number (MAC Address):</strong> Every gadget has an unchangeable identity number stamped into its chip at the factory called a <strong>MAC Address</strong> (like <code>A4:C3:61:9B:21:F0</code>).</li>
-        <li><strong>The Local House Nickname (Local IP Address):</strong> Because MAC addresses are long, the router assigns each device a simple number inside our <strong>LAN</strong> (Local Area Network). The Switch is <code>192.168.1.185</code>, and the Server PC is <code>192.168.1.191</code>.</li>
-        <li><strong>The Copper Fast Lane (Ethernet):</strong> When the router sees the packet is addressed to <code>192.168.1.191</code>, it shoots the electrical signal down a copper <strong>Ethernet cable</strong> plugged into the server PC in less than 1 millisecond.</li>
-      </ul>
-    </div>
-
-    <div class="pedagogy-block block-vocab">
-      <div class="block-title title-vocab">📐 The Engineer's Vocabulary</div>
-      <dl class="vocab-list">
-        <dt>Router</dt>
-        <dd>A specialized computer that connects multiple devices together and directs data to the correct destination.</dd>
-        <dt>LAN (Local Area Network)</dt>
-        <dd>The private network inside a single home or building. Devices on the same LAN can communicate almost instantly.</dd>
-        <dt>IP Address</dt>
-        <dd>A unique numerical label assigned to each device connected to a computer network.</dd>
-        <dt>Ethernet</dt>
-        <dd>High-speed copper cables that carry data directly between computers and routers using electric pulses.</dd>
-      </dl>
-    </div>
-
-    <div class="minecraft-impact">
-      🎮 <strong>Why this matters in Minecraft:</strong> Because the server PC is plugged directly into the router with an Ethernet cable, it never experiences Wi-Fi lag spikes when someone in the house turns on the microwave!
-    </div>
+    <p>
+      The Switch takes Ben's action and bundles it into an official network packet. Think of this packet like an envelope ready to be dropped into the mailbox. The console writes three important things on the envelope:
+      First, it stamps its own factory serial number, a permanent physical name burned into its silicon chip called a <strong>MAC Address</strong>.
+      Second, it writes its temporary household nickname, called a <strong>Local IP Address</strong>. The router in Ben's house gave the Switch the local number one-nine-two, dot, one-six-eight, dot, one, dot, one-eight-five.
+      Third, it writes the destination address: one-nine-two, dot, one-six-eight, dot, one, dot, one-nine-one—the private address of the dedicated Minecraft Server computer in the home office.
+    </p>
+    <p>
+      To launch this envelope across the house without any wires, the Switch turns on its high-power <strong>Wi-Fi radio antenna</strong>. While the controller used gentle Bluetooth waves to cross the rug, the console uses a much more powerful Wi-Fi transmitter that vibrates electricity five billion times per second, known as <strong>five gigahertz Wi-Fi</strong>. These high-frequency waves are strong enough to punch straight through living room drywall, wooden doors, and furniture, carrying millions of bits of information every millisecond.
+    </p>
+    <p>
+      Across the hallway sits a black plastic box with blinking green lights and tall antennas: the <strong>Wi-Fi Router</strong>. The router catches the radio wave out of the air, measures the voltage fluctuations, and reconstructs the packet of ones and zeros. The message has officially crossed the living room!
+    </p>
   </div>
 
   <!-- Chapter 3 -->
   <div class="chapter-card">
     <div class="chapter-header">
-      <span class="chapter-tag">Chapter 3</span>
-      <h2 class="chapter-title">The Secret Mail Slots in the Front Door</h2>
-      <div class="chapter-subtitle">How Friends Play From Across Town (The Internet & Port Forwarding)</div>
+      <span class="chapter-number">Chapter 3</span>
+      <h2 class="chapter-title">The Hallway Traffic Cop and the Copper Highway</h2>
+      <div class="chapter-subtitle">Through the Router and Down the Ethernet Cable</div>
     </div>
 
-    <div class="diagram-box">
-[ Friend's House ] ──(Internet Highway)──► [ Our House Door: 99.105.59.82 ]
-                                                      │
-                                                      ├── Slot 80 (Web Pages) ────► Mom's Laptop
-                                                      ├── Slot 443 (YouTube) ─────► Living Room TV
-                                                      └── Slot 19132 (Minecraft) ─► [ Server PC ]
+    <p>
+      The home router is not just a passive radio listener; it is a high-speed computer dedicated entirely to sorting digital mail.
+    </p>
+    <p>
+      Imagine the front desk of a busy school. Parents are dropping off lunchboxes, teachers are collecting permission slips, the delivery truck is dropping off library books, and the principal is making announcements over the loudspeaker. If the school secretary didn't sort through all that chaos, papers would get lost and students would go without lunch.
+    </p>
+    <p>
+      The router does that exact job for every electronic gadget in Ben's house. At any given second, Mom's laptop is downloading a work email, the living room television is streaming a high-definition movie, an iPad is playing music, and Ben's Switch is sending Minecraft packets.
+    </p>
+    <p>
+      The router inspects the address label on Ben's packet and sees that it belongs to device one-nine-two, dot, one-six-eight, dot, one, dot, one-nine-one—the server computer. Instead of spraying the message back out into the crowded airwaves, the router sends it down a direct blue cable plugged into the back of the machine: a copper <strong>Ethernet cable</strong>.
+    </p>
+
+    <div class="diagram-flow">
+[ The Router ] ──(Copper Ethernet Cable)──► [ Server Computer: 192.168.1.191 ]
+  Electrical pulses travel through shielded copper wires at 2/3 the speed of light!
+  Reaches the server network card in less than 0.0005 seconds!
     </div>
 
-    <div class="pedagogy-block block-analogy">
-      <div class="block-title title-analogy">🎨 The Everyday Picture: The Apartment Mail Slots</div>
-      <p>
-        Imagine a giant apartment building on Main Street. The entire building has one street address: <strong>100 Main Street</strong>.
-      </p>
-      <p>
-        If a delivery driver arrives with a package that just says <em>"100 Main Street,"</em> they won't know which family to give it to! But if the box says <em>"100 Main Street, Apartment #4B,"</em> the mail carrier slips the package into the specific slot for apartment 4B. On the Internet, our whole house has one street address, and <strong>Ports</strong> are the specific apartment mail slots.
-      </p>
-    </div>
-
-    <div class="pedagogy-block block-tech">
-      <div class="block-title title-tech">🔬 Under the Microscope: What Physically Happens</div>
-      <ul>
-        <li><strong>The Fiber-Optic Highway:</strong> When a friend plays from across town, their packet travels along glass cables as pulses of laser light beneath city streets.</li>
-        <li><strong>Our Public Address (Public IP):</strong> To the outside world, our whole home is identified by one number: <strong><code>99.105.59.82</code></strong>.</li>
-        <li><strong>Software Ports:</strong> To keep different types of traffic organized, operating systems use virtual doorways called <strong>Ports</strong> (numbered 0 to 65,535). Port 80 is for websites; Port 443 is for secure video; Port 19132 is for Bedrock Minecraft!</li>
-        <li><strong>Port Forwarding:</strong> We configured an automatic rule in our home router: <em>"Whenever any packet arrives from anywhere on planet Earth stamped with Port 19132, deliver it straight to the Minecraft Server PC (`192.168.1.191`)!"</em></li>
-      </ul>
-    </div>
-
-    <div class="pedagogy-block block-vocab">
-      <div class="block-title title-vocab">📐 The Engineer's Vocabulary</div>
-      <dl class="vocab-list">
-        <dt>Public IP Address</dt>
-        <dd>The unique identifier of your entire home on the global Internet.</dd>
-        <dt>Port</dt>
-        <dd>A virtual numbered channel (from 0 to 65,535) that computer programs use to organize different streams of data.</dd>
-        <dt>Port Forwarding</dt>
-        <dd>A router rule that redirects incoming Internet traffic on a specific port directly to one chosen computer on the local network.</dd>
-      </dl>
-    </div>
-
-    <div class="minecraft-impact">
-      🎮 <strong>Why this matters in Minecraft:</strong> Without port forwarding, your friends' consoles wouldn't be able to reach our server—the router would block them at the front door thinking they were junk mail!
-    </div>
+    <p>
+      While Wi-Fi waves have to fight through walls and interference from microwaves and neighboring houses, copper Ethernet cables are shielded highways. The router shoots electrical pulses down the copper wires, and the packet reaches the server PC in less than half a millisecond.
+    </p>
+    <p>
+      From Ben's finger squeezing the controller trigger, across the Bluetooth radio, through the Switch console, over the Wi-Fi airwaves, through the router, and down the copper wire, only seven milliseconds have passed. But Ben is only one player—what about Harrison, Andy, River, and Kai?
+    </p>
   </div>
 
   <!-- Chapter 4 -->
   <div class="chapter-card">
     <div class="chapter-header">
-      <span class="chapter-tag">Chapter 4</span>
-      <h2 class="chapter-title">The Robot Buddy on Your Friends List</h2>
-      <div class="chapter-subtitle">The Secret Backdoor for Game Consoles (Agent MCBazserv)</div>
+      <span class="chapter-number">Chapter 4</span>
+      <h2 class="chapter-title">The Friends Across Town</h2>
+      <div class="chapter-subtitle">The Global Internet and the Secret Mail Slots</div>
     </div>
 
-    <div class="diagram-box">
-1. Server starts up ──► Logs in as "MCBazserv" on Xbox Live
-2. Console opens Minecraft ──► Asks Xbox Live: "Are any of my friends playing?"
-3. Xbox Live answers ──► "Yes! MCBazserv is playing in a world!"
-4. Player clicks "Join" ──► Console tunnels directly into our home server!
+    <p>
+      While Ben was tapping his trigger in the living room, his friends were preparing their gear from their own homes across the city.
+    </p>
+    <p>
+      Three miles away, Harrison is sitting in his bedroom with his Xbox controller. When Harrison moves his character forward, his Xbox sends packets to his family's router. But Harrison's router cannot talk to Ben's home Wi-Fi; they are miles apart!
+    </p>
+    <p>
+      Instead, Harrison's router sends the packet out of his house and onto the <strong>Internet Backbone</strong>. The Internet is not a cloud floating in the sky; it is a vast physical network of glass cables, known as <strong>fiber-optic cables</strong>, buried deep underneath neighborhood sidewalks, roads, and rivers. Inside these glass strands, tiny laser diodes flash pulses of light millions of times each second. Harrison's movement packet travels across the city inside pulses of laser light at nearly the speed of light, arriving at Ben's house in less than fifteen milliseconds.
+    </p>
+
+    <div class="narrative-callout callout-analogy">
+      <div class="callout-label label-analogy">🎨 The Everyday Picture: The Apartment Mail Slots</div>
+      Imagine a giant apartment building on Main Street. The entire building has one street address: 100 Main Street. If a delivery driver arrives with a package that just says "100 Main Street," they won't know which family to give it to! But if the box says "100 Main Street, Apartment #4B," the mail carrier slips the package into the specific slot for apartment 4B. On the Internet, our whole house has one street address, and Ports are the specific apartment mail slots.
     </div>
 
-    <div class="pedagogy-block block-analogy">
-      <div class="block-title title-analogy">🎨 The Everyday Picture: The Playground Secret Passcode</div>
-      <p>
-        Imagine your school playground has a locked security gate. Visitors aren't allowed to walk in unless they have a teacher escorting them.
-      </p>
-      <p>
-        Now imagine you have a very smart robot friend named <strong>Baz</strong> who has a teacher badge! Baz stands at the playground gate. Whenever you walk up, Baz smiles, waves you through, and says <em>"He's with me!"</em> The security guard lets you right in without asking you to fill out any paperwork. Our server uses an automated robot buddy named <strong><code>MCBazserv</code></strong> to do that exact same trick!
-      </p>
-    </div>
-
-    <div class="pedagogy-block block-tech">
-      <div class="block-title title-tech">🔬 Under the Microscope: What Physically Happens</div>
-      <ul>
-        <li><strong>The "Walled Garden" Problem:</strong> Nintendo, PlayStation, and Xbox consoles do not let kids type in custom server IP addresses like <code>99.105.59.82</code>. They locked the doors to keep players on official servers.</li>
-        <li><strong>The Friends Tab Loophole:</strong> Consoles <em>do</em> allow players to join their friends' casual games over Xbox Live with 1 click.</li>
-        <li><strong>The MCXboxBroadcast Robot:</strong> Inside our server runs a program that connects to Microsoft's cloud and logs in as an Xbox Live player named <strong><code>MCBazserv</code></strong>.</li>
-        <li><strong>The Invitation Beacon:</strong> The bot broadcasts to Xbox Live: <em>"I am hosting an active game!"</em> Because you added MCBazserv as a friend, your console shows the server directly inside your in-game <strong>Friends Tab</strong> under <strong>Joinable Friends</strong>!</li>
-      </ul>
-    </div>
-
-    <div class="pedagogy-block block-vocab">
-      <div class="block-title title-vocab">📐 The Engineer's Vocabulary</div>
-      <dl class="vocab-list">
-        <dt>Walled Garden</dt>
-        <dd>A closed technology system where the manufacturer restricts which outside servers or software users can access.</dd>
-        <dt>Bot</dt>
-        <dd>An automated software program that performs tasks by pretending to be a real human user.</dd>
-        <dt>WebRTC / NetherNet</dt>
-        <dd>Modern networking protocols designed for ultra-low-delay data transfer across firewalls between game consoles and servers.</dd>
-      </dl>
-    </div>
-
-    <div class="minecraft-impact">
-      🎮 <strong>Why this matters in Minecraft:</strong> Kids playing on Nintendo Switch or PS5 don't have to change complicated DNS numbers or router settings. They just add <code>MCBazserv</code> as a friend, click Join, and they're in!
-    </div>
+    <p>
+      When Harrison's packet arrives at Ben's house, it encounters a major hurdle: the entire world ran out of spare computer numbers years ago. Because of this, an entire household shares just one single global street address on the Internet, called a <strong>Public IP Address</strong>. The public address of Ben's home on planet Earth is ninety-nine, dot, one-zero-five, dot, five-nine, dot, eight-two.
+    </p>
+    <p>
+      When Harrison's packet knocks on Ben's router, the router faces a puzzle: how does it know whether Harrison's packet is an email for Mom, a YouTube video for the family TV, or a game packet for Minecraft?
+    </p>
+    <p>
+      To solve this, operating systems use virtual mailboxes called <strong>Ports</strong>. Every computer program uses a different port number, ranging from zero all the way to sixty-five thousand five hundred and thirty-five. Web browsers use port eighty, secure video streams use port four-forty-three, and Minecraft Bedrock uses <strong>port nineteen-thousand-one-hundred-and-thirty-two</strong>.
+    </p>
+    <p>
+      To let Harrison and the others connect, Ben's family set up a rule inside the router called <strong>Port Forwarding</strong>. The rule tells the router: whenever any package arrives from anywhere on planet Earth stamped with port nineteen-thousand-one-hundred-and-thirty-two, do not question it—slide it through the mail slot and rush it down the copper cable straight to the Minecraft Server computer!
+    </p>
   </div>
 
   <!-- Chapter 5 -->
   <div class="chapter-card">
     <div class="chapter-header">
-      <span class="chapter-tag">Chapter 5</span>
-      <h2 class="chapter-title">The Master Interpreter</h2>
-      <div class="chapter-subtitle">When Nintendo and PC Speak Two Different Languages (Geyser & Floodgate)</div>
+      <span class="chapter-number">Chapter 5</span>
+      <h2 class="chapter-title">The Secret Agent Robot</h2>
+      <div class="chapter-subtitle">How Consoles Sneak In with MCBazserv</div>
     </div>
 
-    <div class="diagram-box">
-[ Nintendo / iPad (Bedrock) ]                                  [ PC Server (Java) ]
-"runtime_id: 5821, dir: north" ──► [ GEYSER TRANSLATOR ] ──► "minecraft:chest[facing=north]"
-(Speaks C++ / Little-Endian)       (Translates in 0.001 sec)   (Speaks Java / Big-Endian)
+    <p>
+      Even with port forwarding in place, Harrison on his Xbox, River on his PlayStation 5, and Ben on his Switch face another giant obstacle: the console companies built their machines inside what engineers call a <strong>walled garden</strong>.
+    </p>
+    <p>
+      On a computer or a mobile phone, Minecraft has an "Add Server" button where players can type in numbers like ninety-nine, dot, one-zero-five, dot, five-nine, dot, eight-two. But Sony, Nintendo, and Microsoft intentionally removed that button from their consoles. They wanted to protect players from entering strange servers, but it made playing on private family servers almost impossible!
+    </p>
+
+    <div class="narrative-callout callout-analogy">
+      <div class="callout-label label-analogy">🎨 The Everyday Picture: The Playground Secret Passcode</div>
+      Imagine your school playground has a locked security gate. Visitors aren't allowed to walk in unless they have a teacher escorting them. Now imagine you have a very smart robot friend named Baz who has a teacher badge! Baz stands at the playground gate. Whenever you walk up, Baz smiles, waves you through, and says "He's with me!" The security guard lets you right in without asking you to fill out any paperwork. Our server uses an automated robot buddy named MCBazserv to do that exact same trick!
     </div>
 
-    <div class="pedagogy-block block-analogy">
-      <div class="block-title title-analogy">🎨 The Everyday Picture: The UN Language Interpreter</div>
-      <p>
-        Imagine a meeting at the United Nations. A diplomat from Japan wants to speak with a diplomat from France. The Japanese diplomat only speaks Japanese, and the French diplomat only understands French. If they try to shout across the table, neither will understand a word!
-      </p>
-      <p>
-        So they hire a world-class <strong>interpreter</strong> wearing headphones. The interpreter listens to the Japanese words, instantly translates them into French inside their head, and whispers them into the French diplomat's ear. On our server, <strong>Geyser</strong> is that lightning-fast interpreter.
-      </p>
-    </div>
-
-    <div class="pedagogy-block block-tech">
-      <div class="block-title title-tech">🔬 Under the Microscope: What Physically Happens</div>
-      <ul>
-        <li><strong>The Two Minecrafts:</strong> Java Edition (PC) is written in Java and reads bytes left-to-right (Big-Endian). Bedrock Edition (consoles/phones) is written in C++ and reads bytes right-to-left (Little-Endian). They name blocks and mobs completely differently!</li>
-        <li><strong>Geyser-Spigot:</strong> When an iPad player places a chest, Bedrock sends: <em>"Placed block runtime_id 5821."</em> Geyser intercepts that number, looks it up in its giant digital dictionary, and translates it into Java language: <code>BlockState{minecraft:chest[facing=north]}</code> in less than 2 milliseconds!</li>
-        <li><strong>Floodgate (The VIP Passport):</strong> Java servers require a paid PC Java account. But console kids only have Xbox accounts! Floodgate uses <strong>asymmetric cryptography</strong> (secret mathematical keys) to stamp a digital VIP passport on the Bedrock player's profile, allowing them to join safely without buying a PC account.</li>
-      </ul>
-    </div>
-
-    <div class="pedagogy-block block-vocab">
-      <div class="block-title title-vocab">📐 The Engineer's Vocabulary</div>
-      <dl class="vocab-list">
-        <dt>Protocol</dt>
-        <dd>The agreed-upon rules and vocabulary that two computer programs use to exchange information.</dd>
-        <dt>Endianness</dt>
-        <dd>The order in which computer memory stores multi-byte numbers (either Big-Endian or Little-Endian).</dd>
-        <dt>Cryptography</dt>
-        <dd>The mathematical science of securing data and verifying identities using encrypted digital keys.</dd>
-      </dl>
-    </div>
-
-    <div class="minecraft-impact">
-      🎮 <strong>Why this matters in Minecraft:</strong> An iPad player can build a house side-by-side with a friend playing on a high-end gaming PC, and both see the exact same blocks appear at the exact same instant!
-    </div>
+    <p>
+      Inside our server computer runs a program called <strong>MCXboxBroadcast</strong>. When the server turns on, this program logs into Microsoft's official Xbox Live gaming network using an automated account with the gamertag <strong>MCBazserv</strong>. 
+    </p>
+    <p>
+      Once logged in, the robot stands on Xbox Live and announces to the world: <em>"Hello! I am MCBazserv, and I am currently playing inside a fun multiplayer world!"</em>
+    </p>
+    <p>
+      Before the weekend, Ben had Harrison, River, Andy, and Kai add MCBazserv as an Xbox friend. Because they are friends with the robot, whenever Harrison turns on his Xbox, or River boots his PS5, their consoles automatically ask Microsoft: <em>"Are any of my friends playing Minecraft right now?"</em>
+    </p>
+    <p>
+      Microsoft replies: <em>"Yes! Your buddy MCBazserv is playing in a world right now!"</em>
+    </p>
+    <p>
+      Because of that friendly answer, the console places our server directly inside the in-game <strong>Friends Tab</strong> under <strong>Joinable Friends</strong>! Harrison and River don't have to change complicated network settings or hack their consoles. They simply move their cursor over to MCBazserv and press Join. Behind the scenes, Microsoft's cloud sets up a secure, low-delay gaming tunnel called <strong>WebRTC and NetherNet</strong>, connecting the boys' consoles directly to the robot. The robot catches their incoming connections and quietly slides them straight into our home server!
+    </p>
   </div>
 
   <!-- Chapter 6 -->
   <div class="chapter-card">
     <div class="chapter-header">
-      <span class="chapter-tag">Chapter 6</span>
-      <h2 class="chapter-title">The Universe Clock</h2>
-      <div class="chapter-subtitle">How the Server Breathes 20 Times Every Second (PaperMC & Java 25)</div>
+      <span class="chapter-number">Chapter 6</span>
+      <h2 class="chapter-title">The Master Translator</h2>
+      <div class="chapter-subtitle">Geyser and Floodgate Bridge the Great Divide</div>
     </div>
 
-    <div class="diagram-box">
-[ THE 50-MILLISECOND SERVER TICK ]
-0ms ──► 1. Read controller button presses from all players
-10ms ──► 2. Run zombie and skeleton AI (Where do they walk?)
-25ms ──► 3. Calculate physics (Water flow, falling sand, redstone)
-35ms ──► 4. Check nature timers (Wheat growing, daylight moving)
-45ms ──► 5. Send updated picture of reality back to everyone's screen
-50ms ──► [ TICK FINISHED! Start the next tick immediately! ]
+    <p>
+      Now all five boys have reached the server computer. But the moment their packets arrive, the server encounters one of the most famous problems in computer science: <strong>Minecraft is actually two completely incompatible video games masquerading under the same title</strong>.
+    </p>
+    <p>
+      Kai is playing on a desktop PC running the original <strong>Java Edition</strong>, written in the Java programming language back in the year two thousand and nine. Java Edition names blocks with words like `minecraft:iron_ore` and stores numbers from left to right, which computer scientists call <strong>Big-Endian</strong>.
+    </p>
+    <p>
+      Ben on his Switch, Harrison on his Xbox, River on his PS5, and Andy on his iPad are all playing the modern <strong>Bedrock Edition</strong>, rewritten in the C-plus-plus programming language to run smoothly on portable screens. Bedrock names blocks with secret internal numbers like block four-hundred-and-twelve, and stores numbers from right to left, which computer scientists call <strong>Little-Endian</strong>.
+    </p>
+
+    <div class="narrative-callout callout-analogy">
+      <div class="callout-label label-analogy">🎨 The Everyday Picture: The UN Language Interpreter</div>
+      Imagine a meeting at the United Nations. A diplomat from Japan wants to speak with a diplomat from France. The Japanese diplomat only speaks Japanese, and the French diplomat only understands French. If they try to shout across the table, neither will understand a word! So they hire a world-class interpreter wearing headphones. The interpreter listens to the Japanese words, instantly translates them into French inside their head, and whispers them into the French diplomat's ear. On our server, Geyser is that lightning-fast interpreter.
     </div>
 
-    <div class="pedagogy-block block-analogy">
-      <div class="block-title title-analogy">🎨 The Everyday Picture: The Flipbook Cartoon</div>
-      <p>
-        Have you ever drawn a stick figure in the corner of a notebook, changed its arms slightly on the next page, and flipped the pages rapidly with your thumb?
-      </p>
-      <p>
-        The stick figure looks like it is running smoothly! But if you flip the pages too slowly, the cartoon stutters and looks choppy. The Minecraft server is a giant digital flipbook. Every page flip is called a <strong>Tick</strong>, and the server flips <strong>20 pages every single second</strong>!
-      </p>
-    </div>
-
-    <div class="pedagogy-block block-tech">
-      <div class="block-title title-tech">🔬 Under the Microscope: What Physically Happens</div>
-      <ul>
-        <li><strong>The 50ms Pulse:</strong> One second divided by 20 ticks equals <strong>50 milliseconds</strong> per tick. Every 50ms, PaperMC runs a massive checklist: poll player movements, update monster pathfinding AI, calculate falling gravity and redstone, and broadcast the new world state.</li>
-        <li><strong>6 GB Memory Scratchpad:</strong> The server computer dedicates 6 Gigabytes of high-speed DDR RAM so millions of blocks can stay loaded at once without waiting for slow disk drives.</li>
-        <li><strong>Aikar’s Garbage Collector (G1GC):</strong> Creating particle effects and tracking mobs leaves behind temporary digital trash in memory. We launched the server with <strong>Aikar's Flags</strong>, which instruct the computer to sweep up trash in tiny 5-millisecond background pauses so the game never freezes!</li>
-      </ul>
-    </div>
-
-    <div class="pedagogy-block block-vocab">
-      <div class="block-title title-vocab">📐 The Engineer's Vocabulary</div>
-      <dl class="vocab-list">
-        <dt>TPS (Ticks Per Second)</dt>
-        <dd>The speed of the server's internal clock. A healthy server runs at a steady <strong>20.0 TPS</strong>.</dd>
-        <dt>RAM (Random Access Memory)</dt>
-        <dd>Super-fast electronic scratchpad memory where active game chunks and entities are stored while playing.</dd>
-        <dt>Garbage Collection</dt>
-        <dd>An automated memory cleanup process that recycles temporary computer memory so software doesn't run out of space.</dd>
-      </dl>
-    </div>
-
-    <div class="minecraft-impact">
-      🎮 <strong>Why this matters in Minecraft:</strong> When TPS drops to 10 or 12, skeletons shoot in slow motion, eating food takes twice as long, and blocks you mine appear to pop back into existence!
-    </div>
+    <p>
+      To solve this, our server runs a translation engine called <strong>Geyser</strong>. Geyser acts like a world-class United Nations interpreter wearing headphones. When Andy on his iPad places a wooden chest, Bedrock sends a message saying: <em>"Player placed block runtime ID five-thousand-eight-hundred-and-twenty-one facing orientation two."</em> Geyser catches that message, flips the byte order around in computer memory, looks up the number in its giant translation dictionary, and rewrites it in Java language: <code>BlockState minecraft chest facing north</code>. It performs this translation back and forth for every single block, player movement, and particle in <strong>less than two milliseconds</strong>!
+    </p>
+    <p>
+      Working right beside Geyser is another guardian called <strong>Floodgate</strong>. Java servers normally demand that every player prove they purchased a PC Java account through Mojang. But Andy, Harrison, and River only have free Microsoft Xbox accounts! Floodgate acts like a VIP passport control officer. Using advanced mathematics called <strong>asymmetric cryptography</strong>, Floodgate inspects their Xbox signatures, stamps a digital VIP passport on their player profiles, and tells the Java server: <em>"These players are verified friends. Let them into the world without demanding a second purchase!"</em>
+    </p>
+    <p>
+      Because of Geyser and Floodgate, Kai on his PC can mine iron side-by-side with Andy on his iPad, Harrison on his Xbox, River on his PS5, and Ben on his Switch, and all five see the exact same world at the exact same instant!
+    </p>
   </div>
 
   <!-- Chapter 7 -->
   <div class="chapter-card">
     <div class="chapter-header">
-      <span class="chapter-tag">Chapter 7</span>
-      <h2 class="chapter-title">The Magic Doors and the Locker Room</h2>
-      <div class="chapter-subtitle">Three Worlds in One Game (Multiverse, Portals & Inventories)</div>
+      <span class="chapter-number">Chapter 7</span>
+      <h2 class="chapter-title">The Universe Clock</h2>
+      <div class="chapter-subtitle">PaperMC and the 20 Beats of Every Second</div>
     </div>
 
-    <div class="diagram-box">
-               ┌────────────────────────────────────────────────────────┐
-               │                        THE HUB                         │
-               │   • Mode: Creative     • Day: Eternal Sunshine         │
-               │   • Mobs: None         • Damage: Disabled              │
-               └───────────┬────────────────────────────────┬───────────┘
-                           │                                │
-            [ Step into Survival Portal ]    [ Step into Creative Portal ]
-                           │                                │
-                           ▼                                ▼
-         ┌──────────────────────────────────┐ ┌──────────────────────────────────┐
-         │          SURVIVAL WORLD          │ │          CREATIVE WORLD          │
-         │ • Mining, Hunger, Monsters       │ │ • Superflat, Infinite Blocks     │
-         │ • Separate Survival Backpack     │ │ • Separate Creative Backpack     │
-         └──────────────────────────────────┘ └──────────────────────────────────┘
+    <p>
+      Now we enter the true engine room of the server: <strong>PaperMC</strong>, powered by the high-performance <strong>Adoptium Java 25</strong> virtual machine.
+    </p>
+    <p>
+      The server computer dedicates <strong>six Gigabytes of high-speed electronic memory</strong>, known as <strong>RAM</strong>, to hold the entire Minecraft universe in live storage. In computer memory, reading and writing data happens in nanoseconds—thousands of times faster than reading from a hard drive.
+    </p>
+    <p>
+      Inside the server, time does not flow in a smooth, continuous stream. The universe moves forward in discrete mathematical beats called <strong>Ticks</strong>.
+    </p>
+
+    <div class="narrative-callout callout-analogy">
+      <div class="callout-label label-analogy">🎨 The Everyday Picture: The Flipbook Cartoon</div>
+      Have you ever drawn a stick figure in the corner of a notebook, changed its arms slightly on the next page, and flipped the pages rapidly with your thumb? The stick figure looks like it is running smoothly! But if you flip the pages too slowly, the cartoon stutters and looks choppy. The Minecraft server is a giant digital flipbook. Every page flip is called a Tick, and the server flips 20 pages every single second!
     </div>
 
-    <div class="pedagogy-block block-analogy">
-      <div class="block-title title-analogy">🎨 The Everyday Picture: The Theme Park Locker Room</div>
-      <p>
-        Imagine visiting a water park connected to an amusement park. Before riding the water slides, the park makes you put your sneakers, phone, and wallet into a locker.
-      </p>
-      <p>
-        When you leave the water slides to ride the roller coasters, you open your locker, put your shoes back on, and store your wet towel. Our server uses <strong>Multiverse-Inventories</strong> like that theme park locker so players can't cheat 64 diamond blocks from Creative into Survival!
-      </p>
-    </div>
-
-    <div class="pedagogy-block block-tech">
-      <div class="block-title title-tech">🔬 Under the Microscope: What Physically Happens</div>
-      <ul>
-        <li><strong>Parallel Realities (Multiverse-Core):</strong> The plugin keeps three independent world folders loaded simultaneously: <code>hub</code> (peaceful welcome lounge), <code>survival</code> (wild frontier with night cycles and monsters), and <code>superflatcreative</code> (infinite building canvas).</li>
-        <li><strong>The Portal Trigger (Multiverse-Portals):</strong> When you step inside an obsidian portal frame, the plugin intercepts your position vector, plays an ender sound, and teleports you into the new world's spawn coordinates.</li>
-        <li><strong>The NBT Vault (Multiverse-Inventories):</strong> Minecraft stores items in a format called <strong>NBT (Named Binary Tag)</strong>. When you step through a portal, the plugin writes your survival items into a secure file on disk (`IronBen312.json`), wipes your hotbar, and gives you your creative items. When you return, it restores every diamond and torch down to the exact durability point on your iron pickaxe!</li>
-      </ul>
-    </div>
-
-    <div class="pedagogy-block block-vocab">
-      <div class="block-title title-vocab">📐 The Engineer's Vocabulary</div>
-      <dl class="vocab-list">
-        <dt>Dimension</dt>
-        <dd>A distinct world environment with its own terrain generator, rules, and coordinate system.</dd>
-        <dt>NBT (Named Binary Tag)</dt>
-        <dd>A specialized file format designed by Mojang to store structured data like player health and item enchants.</dd>
-        <dt>Serialization</dt>
-        <dd>The process of converting live computer data into a file that can be saved onto a drive and reloaded later.</dd>
-      </dl>
-    </div>
-
-    <div class="minecraft-impact">
-      🎮 <strong>Why this matters in Minecraft:</strong> You can practice building giant redstone castles in Creative mode without ruining the excitement and challenge of earning real diamonds in Survival!
-    </div>
+    <p>
+      The server's clock beats exactly <strong>twenty Ticks Per Second</strong>. That means every <strong>fifty milliseconds</strong>—one-twentieth of a second—the server flips a page in the giant digital flipbook of reality:
+    </p>
+    <p>
+      At millisecond zero, the tick begins. The server opens its network sockets and reads every jump, swing, and step packet sent in by Ben, Harrison, Andy, River, and Kai.
+    </p>
+    <p>
+      By millisecond ten, the server calculates the Artificial Intelligence for every monster in the world. Skeletons calculate the curved trajectory needed to shoot arrows over obstacles; zombies search for the shortest pathway around fences; spiders climb toward light sources.
+    </p>
+    <p>
+      By millisecond twenty-five, the server calculates block physics. If gravel has lost its supporting stone beneath it, the server starts its downward gravitational acceleration. If water or lava is placed, fluid dynamics calculate which way the liquid flows. If redstone is powered, electrical currents propagate through repeaters and fire pistons.
+    </p>
+    <p>
+      By millisecond thirty-five, the server checks the timers of nature. It rolls random dice to decide whether a stalk of wheat grows an inch taller, whether an apple drops from an oak leaf, or whether the sun dips lower below the horizon.
+    </p>
+    <p>
+      By millisecond forty-five, the server gathers all the changes that happened during that tick, compresses them into outbound update packets, and beams the new picture of reality back across the network to all five screens!
+    </p>
+    <p>
+      By millisecond fifty, the tick is complete. As long as the server maintains a steady pace of twenty ticks per second, the game feels buttery smooth.
+    </p>
+    <p>
+      To keep this clock ticking without stuttering, the server uses special instructions called <strong>Aikar's Flags</strong>. When millions of calculations happen every second, the computer leaves behind scraps of digital scratch paper in its memory. If the computer stopped the game to clean up that trash all at once, the server would freeze for two seconds, creating a terrible <strong>lag spike</strong>. Aikar's Flags instruct the computer's <strong>Garbage Collector</strong> to sweep away tiny pinches of digital trash constantly in microscopic pauses lasting less than five milliseconds, ensuring the game never skips a beat.
+    </p>
   </div>
 
   <!-- Chapter 8 -->
   <div class="chapter-card">
     <div class="chapter-header">
-      <span class="chapter-tag">Chapter 8</span>
-      <h2 class="chapter-title">The Road Crew and the Engine Stethoscope</h2>
-      <div class="chapter-subtitle">Keeping the World Fast and Smooth (Chunky & Spark)</div>
+      <span class="chapter-number">Chapter 8</span>
+      <h2 class="chapter-title">The Magic Portals and the Backpack Vault</h2>
+      <div class="chapter-subtitle">Three Worlds in One Game with Multiverse</div>
     </div>
 
-    <div class="diagram-box">
-WITHOUT CHUNKY:
-Player sprints forward ──► CPU panics: "Quick! Calculate 10,000 blocks of caves and trees!" ──► LAG SPIKE!
+    <p>
+      Before the five friends can set off into the wilderness, they start their morning in the <strong>Portal Hub</strong>.
+    </p>
+    <p>
+      The Hub is a peaceful, floating stone arena. In this world, the clock is permanently frozen at midday, hunger never drains, players have creative building powers, and monsters are strictly forbidden from spawning. It is a safe gathering plaza where the boys can test gear and plan their route.
+    </p>
+    <p>
+      At the edge of the Hub arena stand two massive portal frames made of carved stone and obsidian: one portal leads to the infinite <strong>Creative World</strong>, and the other leads to the wild <strong>Survival World</strong>.
+    </p>
+    <p>
+      Harrison shouts through his headset: <em>"Everyone to the Survival portal! Let's go cave hunting!"</em>
+    </p>
+    <p>
+      The boys run forward and step into the swirling purple energy of the Survival portal. How does the server know what to do with them?
+    </p>
 
-WITH CHUNKY:
-Player sprints forward ──► CPU smiles: "That land was already built yesterday!" ──► Instant SSD load!
+    <div class="narrative-callout callout-analogy">
+      <div class="callout-label label-analogy">🎨 The Everyday Picture: The Theme Park Locker Room</div>
+      Imagine visiting a water park connected to an amusement park. Before riding the water slides, the park makes you put your sneakers, phone, and wallet into a locker. When you leave the water slides to ride the roller coasters, you open your locker, put your shoes back on, and store your wet towel. Our server uses Multiverse-Inventories like that theme park locker so players can't cheat 64 diamond blocks from Creative into Survival!
     </div>
 
-    <div class="pedagogy-block block-analogy">
-      <div class="block-title title-analogy">🎨 The Everyday Picture: Paving Roads Before the Race</div>
-      <p>
-        Imagine a high-speed desert car race. If construction crews had to pour asphalt and paint lines 10 feet in front of speeding racecars, the cars would have to slam on the brakes while waiting for the concrete to dry!
-      </p>
-      <p>
-        Instead, road crews go out weeks before the race, bulldoze the sand, and pave smooth highways. When the race starts, cars zoom at full speed without stopping. <strong>Chunky</strong> is our server's road-paving crew!
-      </p>
-    </div>
-
-    <div class="pedagogy-block block-tech">
-      <div class="block-title title-tech">🔬 Under the Microscope: What Physically Happens</div>
-      <ul>
-        <li><strong>Chunks and Perlin Noise:</strong> Worlds are divided into 16x16 columns called Chunks (98,304 blocks each). Calculating mountains, caves, and ores using procedural math while players are sprinting creates severe CPU lag.</li>
-        <li><strong>Pre-Generating with Chunky:</strong> Chunky simulated an explorer flying in a giant spiral for hours, calculating all the terrain math and saving completed chunks into <code>.mca</code> region files on our ultra-fast NVMe SSD. When you sprint, the computer reads the blocks off the drive in 0.0005 seconds!</li>
-        <li><strong>Spark (The Stethoscope):</strong> Just like a doctor listens to a heartbeat, admins can run <strong>Spark</strong> to inspect CPU thread call stacks and find out down to the microsecond which redstone contraption or mob farm is causing lag.</li>
-      </ul>
-    </div>
-
-    <div class="pedagogy-block block-vocab">
-      <div class="block-title title-vocab">📐 The Engineer's Vocabulary</div>
-      <dl class="vocab-list">
-        <dt>Chunk</dt>
-        <dd>A 16x16 block column that Minecraft uses to load, save, and render sections of the world.</dd>
-        <dt>Procedural Generation</dt>
-        <dd>Creating complex, natural landscapes automatically using mathematical noise formulas instead of drawing them by hand.</dd>
-        <dt>Profiler</dt>
-        <dd>A diagnostic programming tool that measures how much CPU processing time each piece of code consumes.</dd>
-      </dl>
-    </div>
-
-    <div class="minecraft-impact">
-      🎮 <strong>Why this matters in Minecraft:</strong> You can fly with Elytra wings or sprint on horseback across new continents without the world turning into an empty void while waiting to load!
-    </div>
+    <p>
+      A trio of plugins called <strong>Multiverse</strong> manages the transitions. Multiverse-Core keeps multiple completely different worlds loaded in the computer's memory at the exact same time without interfering with one another. Multiverse-Portals places an invisible mathematical bounding box inside the portal frame. When Ben's coordinates intersect that box, the plugin catches his character, plays a whooshing ender teleport sound, and beams him into the Survival world's spawn forest.
+    </p>
+    <p>
+      And Multiverse-Inventories acts as the server's automatic theme park locker! The plugin intercepts each player the microsecond they step into the portal. It takes Ben's Creative hotbar, saves his inventory into a file on the computer's drive called <code>IronBen312.json</code>, wipes his hands clean, and pulls out his genuine Survival backpack. When Ben emerges on the other side of the portal in the dark forest, his iron armor, wooden torches, and half-eaten loaf of bread are safely returned to his hands, down to the exact scratch on his iron sword!
+    </p>
   </div>
 
   <!-- Chapter 9 -->
   <div class="chapter-card">
     <div class="chapter-header">
-      <span class="chapter-tag">Chapter 9</span>
-      <h2 class="chapter-title">The Pilot's Cockpit</h2>
-      <div class="chapter-subtitle">Running the Entire Machine with One Click (The Server Manager)</div>
+      <span class="chapter-number">Chapter 9</span>
+      <h2 class="chapter-title">The Road Paving Crew</h2>
+      <div class="chapter-subtitle">Why Exploring Doesn't Cause Lag (Chunky & Spark)</div>
     </div>
 
-    <div class="pedagogy-block block-analogy">
-      <div class="block-title title-analogy">🎨 The Everyday Picture: The Spaceship Dashboard</div>
-      <p>
-        Imagine an airplane cockpit. The pilot doesn't climb into the jet engine with a wrench to change the airplane's speed. They sit in a comfortable seat with dials, switches, fuel gauges, and a throttle lever.
-      </p>
-      <p>
-        Our <strong>Server Manager</strong> is the cockpit dashboard for our Minecraft server!
-      </p>
+    <p>
+      Now the boys are out in the Survival world, sprinting across grassy plains, climbing snowy peaks, and exploring deep ravines. Yet even though they are running fast into new territories, the game runs smoothly without freezing.
+    </p>
+    <p>
+      To understand why this is special, you have to look at how Minecraft builds terrain. Minecraft worlds are divided into vertical columns of blocks called <strong>Chunks</strong>. Each chunk is sixteen blocks wide, sixteen blocks long, and extends three hundred and eighty-four blocks from the deepest bedrock up into the clouds. That is ninety-eight thousand three hundred and four individual blocks per chunk!
+    </p>
+    <p>
+      When players explore new land in a standard game, the computer has to invent those blocks from scratch using complicated mathematical equations called <strong>Perlin Noise</strong>. The computer has to calculate mountain curves, hollow out subterranean caverns, place iron and coal veins, generate flowing underground waterfalls, and place every single tree and flower. If five players sprint in five different directions at the same time, the computer gets overwhelmed trying to do all that math on the spot. The server's clock slows down, monsters freeze in place, and players run off into empty void chunks while waiting for the world to load!
+    </p>
+
+    <div class="narrative-callout callout-analogy">
+      <div class="callout-label label-analogy">🎨 The Everyday Picture: Paving Roads Before the Race</div>
+      Imagine an off-road desert car race. If construction crews had to pour asphalt and paint lines 10 feet in front of speeding racecars, the cars would have to constantly slam on the brakes while waiting for the concrete to dry! Instead, road crews go out weeks before the race, bulldoze the sand, and pave smooth highways. When the race starts, cars zoom at full speed without stopping. Chunky is our server's road-paving crew!
     </div>
 
-    <div class="pedagogy-block block-tech">
-      <div class="block-title title-tech">🔬 Under the Microscope: What Physically Happens</div>
-      <ul>
-        <li><strong>Live RAM Monitor:</strong> The app checks Windows every 2 seconds for the running Adoptium Java process. It calculates exact memory usage in Megabytes and displays an <strong>ONLINE</strong> badge.</li>
-        <li><strong>Safe Configuration:</strong> When you change difficulty or view distance in the dropdown menu and click Save, the script safely parses and rewrites <code>server.properties</code> without making file mistakes.</li>
-        <li><strong>The Admin Wand:</strong> With one click, it writes a player's UUID into <code>ops.json</code> with Level 4 permission, giving them admin commands in-game.</li>
-      </ul>
-    </div>
-
-    <div class="pedagogy-block block-vocab">
-      <div class="block-title title-vocab">📐 The Engineer's Vocabulary</div>
-      <dl class="vocab-list">
-        <dt>GUI (Graphical User Interface)</dt>
-        <dd>A visual window with clickable buttons, sliders, and boxes that makes using software intuitive.</dd>
-        <dt>Process</dt>
-        <dd>An actively running software instance managed by the operating system.</dd>
-        <dt>Operator (OP)</dt>
-        <dd>A trusted user granted administrative authority to change game modes and manage world rules.</dd>
-      </dl>
-    </div>
-
-    <div class="minecraft-impact">
-      🎮 <strong>Why this matters in Minecraft:</strong> Parents and kids can start the server, change settings, or grant admin powers without having to open a terminal or type scary computer codes!
-    </div>
+    <p>
+      Before the server was ever opened to the boys, a program called <strong>Chunky</strong> ran an automated explorer in a giant expanding spiral for hours while everyone was asleep. Chunky calculated all the Perlin noise math across thousands of blocks in every direction, generated the mountains and caves, and saved the finished terrain into region files on our high-speed <strong>NVMe Solid State Drive</strong>.
+    </p>
+    <p>
+      Now, when Ben, Harrison, Andy, River, and Kai sprint forward into uncharted territory, the computer doesn't have to do any math at all. It simply reads the pre-built blocks off the solid-state drive in half a millisecond, loading beautiful mountains instantly!
+    </p>
+    <p>
+      And if the server ever encounters a mystery hiccup, an admin can type a command to wake up <strong>Spark</strong>—the server's built-in stethoscope. Spark measures CPU threads thousands of times a second, drawing an interactive web diagram that pinpoints whether an oversized chicken farm or an endless redstone loop is taking up too much processing time.
+    </p>
   </div>
 
   <!-- Chapter 10 -->
   <div class="chapter-card">
     <div class="chapter-header">
-      <span class="chapter-tag">Chapter 10</span>
-      <h2 class="chapter-title">The Super Slow-Motion Sword Swing</h2>
-      <div class="chapter-subtitle">A 35-Millisecond Chronicle of What Happens When Ben Hits a Spider</div>
+      <span class="chapter-number">Chapter 10</span>
+      <h2 class="chapter-title">The Pilot's Cockpit and The 35-Millisecond Battle</h2>
+      <div class="chapter-subtitle">A Split-Second Adventure in the Deep Caves</div>
     </div>
 
-    <p style="font-size: 1.1rem; color: #e2e8f0; margin-bottom: 20px;">
-      Ben is exploring a dark cobblestone cave in the Survival world on his Nintendo Switch. Suddenly, eight glowing red eyes appear in the shadows—a cave spider is pouncing! Ben presses the attack trigger on his controller. Here is what happens in the next <strong>35 milliseconds</strong>:
+    <p>
+      Deep inside a dripping moss cave in the Survival world, the five friends are mining for ores. River spots redstone on the floor and calls the team over. Andy places torches along the cobblestone wall to keep monsters away. Harrison guards the rear with his shield raised high. Kai swings his iron pickaxe, chipping away at a vein of raw gold.
+    </p>
+    <p>
+      Suddenly, eight glowing red eyes appear in the ceiling shadows. A cave spider hisses and pounces through the air, dropping straight toward Ben!
+    </p>
+    <p>
+      Ben's right index finger reacts instantly. He squeezes the trigger on his wireless controller to swing his diamond sword. Let us freeze time and watch the incredible <strong>thirty-five millisecond relay race</strong> that unfolds across the machine:
     </p>
 
-    <div class="diagram-box">
-0.000s ──► Ben presses controller trigger (circuit closes)
-0.005s ──► 5 GHz radio wave carries packet through living room air
-0.008s ──► Router directs packet down copper Ethernet to Port 19132
-0.012s ──► Geyser translates Bedrock arm swing into Java coordinates
-0.020s ──► PaperMC casts a 3.5-block 3D laser line and hits the spider hitbox!
-0.022s ──► Combat math: Spider loses 7 hearts, knockback vector calculated
-0.025s ──► Outbound packet created: "Spider took damage, squeak, and flash red"
-0.028s ──► Geyser translates outbound packet back into Bedrock language
-0.032s ──► Router beams radio wave back to Ben's Nintendo Switch
-0.035s ──► Spider squeaks in Ben's headphones and tumbles backward across the stone!
+    <div class="diagram-flow">
+0.000s ──► Ben squeezes trigger on wireless controller. Rubber pad closes circuit.
+0.003s ──► Controller antenna beams 2.4 GHz Bluetooth wave across rug to Switch console.
+0.007s ──► Switch console fires 5 GHz Wi-Fi wave across house to Wi-Fi Router.
+0.009s ──► Router reads Port 19132 and shoots packet down copper Ethernet to Server PC.
+0.012s ──► Geyser flips Little-Endian bytes to Big-Endian and translates to Java coordinates.
+0.020s ──► PaperMC 50ms tick casts 3D raycast laser line forward 3.5 blocks. Hit detected!
+0.022s ──► Combat physics: Spider loses 7 hearts, health drops to 5, knockback vector applied.
+0.025s ──► Outbound packet created: "Spider took 7 damage, flash red, squeak, fly backward."
+0.028s ──► Geyser translates outbound packet back to Bedrock language for the consoles.
+0.032s ──► Router beams update over Wi-Fi to Ben, and across fiber-optic Internet to Harrison, Andy, River, and Kai.
+0.035s ──► Ben's screen renders the spider flashing red and flying back; squeak plays in headphones!
     </div>
 
-    <p style="text-align: center; color: var(--accent-green); font-weight: bold; font-size: 1.15rem; margin-top: 20px;">
-      Total Time Elapsed: 0.035 seconds — three times faster than you can blink your eyes!
+    <p>
+      At second zero point zero zero zero, Ben's finger pushes the trigger. The conductive rubber pad kisses the copper circuit board. A three-point-three-volt electrical surge signals the controller's chip. The chip packages a movement packet and beams a two-point-four-gigahertz Bluetooth radio wave across the living room rug.
     </p>
-  </div>
-
-  <!-- Chapter 11 Review Table -->
-  <div class="chapter-card">
-    <div class="chapter-header">
-      <span class="chapter-tag">Review</span>
-      <h2 class="chapter-title">The Blueprint: How All the Pieces Work Together</h2>
-    </div>
-
-    <table>
-      <thead>
-        <tr>
-          <th>Component</th>
-          <th>🎨 Everyday Picture</th>
-          <th>🔬 Real Job in Our Server</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><strong>Controller & Screen</strong></td>
-          <td>The Spaceship Cockpit</td>
-          <td>Listens to your fingers and draws 3D graphics on your screen.</td>
-        </tr>
-        <tr>
-          <td><strong>Wi-Fi Radio Waves</strong></td>
-          <td>The Playground Walkie-Talkie</td>
-          <td>Beams button presses through the air at the speed of light.</td>
-        </tr>
-        <tr>
-          <td><strong>The Router</strong></td>
-          <td>The House Post Office</td>
-          <td>Inspects data packages and delivers them using local IP addresses.</td>
-        </tr>
-        <tr>
-          <td><strong>Port Forwarding</strong></td>
-          <td>The Secret Mail Slot in the Door</td>
-          <td>Lets friends across town send Minecraft packets straight into our server PC.</td>
-        </tr>
-        <tr>
-          <td><strong>Agent MCBazserv</strong></td>
-          <td>The Robot Buddy with a Hall Pass</td>
-          <td>Allows Nintendo Switch, Xbox, and PlayStation to join through the Friends tab.</td>
-        </tr>
-        <tr>
-          <td><strong>Geyser</strong></td>
-          <td>The UN Language Interpreter</td>
-          <td>Translates between Bedrock language (consoles/phones) and Java language (PC).</td>
-        </tr>
-        <tr>
-          <td><strong>Floodgate</strong></td>
-          <td>The VIP Passport Stamp</td>
-          <td>Verifies Xbox players so they can play on a Java server without an extra account.</td>
-        </tr>
-        <tr>
-          <td><strong>PaperMC & Java 25</strong></td>
-          <td>The Master Flipbook (20 TPS)</td>
-          <td>The simulation engine that recalculates the universe 20 times every second.</td>
-        </tr>
-        <tr>
-          <td><strong>Multiverse & Portals</strong></td>
-          <td>The Theme Park Dimensions</td>
-          <td>Manages the Hub, Survival, and Creative worlds and swaps backpacks safely.</td>
-        </tr>
-        <tr>
-          <td><strong>Chunky</strong></td>
-          <td>The Bulldozer Road Crew</td>
-          <td>Pre-builds thousands of blocks of terrain ahead of time so the game never lags.</td>
-        </tr>
-        <tr>
-          <td><strong>Server Manager</strong></td>
-          <td>The Pilot's Cockpit Dashboard</td>
-          <td>Lets parents and admins start, stop, and configure the world with one click.</td>
-        </tr>
-      </tbody>
-    </table>
+    <p>
+      At second zero point zero zero three, the Nintendo Switch antenna catches the Bluetooth wave. The console inspects the packet, addresses it to the server's local IP address, powers up its Wi-Fi transmitter, and fires a five-gigahertz radio wave across the hallway air.
+    </p>
+    <p>
+      At second zero point zero zero seven, the home router catches the radio wave. It checks the port number—nineteen-thousand-one-hundred-and-thirty-two—recognizes Minecraft traffic, and shoots the electrical bits down the copper Ethernet cable directly into the server computer.
+    </p>
+    <p>
+      At second zero point zero one two, the translation engine Geyser catches the packet. It flips the bytes from Bedrock's Little-Endian format into Java's Big-Endian format, translates Ben's arm motion into Java coordinate space, and hands the packet to the PaperMC game engine.
+    </p>
+    <p>
+      At second zero point zero two zero, PaperMC begins its next fifty-millisecond tick. The server casts an invisible three-dimensional laser line, called a raycast vector, extending forward three and a half blocks from Ben's character's eyes. The line collides directly with the invisible bounding box of the falling cave spider!
+    </p>
+    <p>
+      At second zero point zero two two, the server calculates combat math. Ben's diamond sword deals seven hearts of damage. The spider's health drops from twelve to five. The server calculates an upward and backward impulse vector, knocking the spider away from Ben.
+    </p>
+    <p>
+      At second zero point zero two five, PaperMC builds an outbound packet of new reality: <em>"Spider entity eighteen-twenty took seven damage, flash red, play hurt squeak, and fly backward two blocks."</em>
+    </p>
+    <p>
+      At second zero point zero two eight, Geyser translates the result back into Bedrock language for the consoles, while keeping the Java version for Kai's PC.
+    </p>
+    <p>
+      At second zero point zero three two, the server shoots the packets down the Ethernet cable to the router. The router beams the packet over Wi-Fi back to Ben's Switch, and shoots packets across the fiber-optic Internet highway to Harrison's Xbox, Andy's iPad, River's PS5, and Kai's PC.
+    </p>
+    <p>
+      At second zero point zero three five, the graphics chip on Ben's Switch paints the spider flashing bright red and tumbling backward against the cave wall. In Ben's headphones, the spider's hurt squeak plays crisp and clear. At that exact same split second, three miles away, Harrison sees the spider fly backward on his television screen.
+    </p>
+    <p>
+      Harrison cheers through his headset: <em>"Awesome hit, Ben! Watch out, there's another one behind you!"</em>
+    </p>
+    <p>
+      The entire journey—from Ben's finger pressing plastic, across radio waves in the air, through glass fiber optics beneath the city, through language translators, and through the simulation heartbeat of the computer—took only <strong>zero point zero three five seconds</strong>. That is three times faster than a human being can blink an eye.
+    </p>
+    <p>
+      Beneath the glass of your screen and the plastic of your controller lies a magnificent world of science, electricity, and engineering. Every wire, radio wave, and line of code works in silent harmony to turn a box of electronics into a magical universe where five friends can explore, build, and conquer together!
+    </p>
   </div>
 
   <footer>
     <p>🎮 Built with PaperMC, Geyser, Floodgate, and Multiverse • Powered by Eclipse Adoptium OpenJDK 25</p>
-    <p style="margin-top: 6px;">Have fun building, surviving, and exploring the server!</p>
+    <p style="margin-top: 6px;">Have fun building, surviving, and exploring together!</p>
   </footer>
 
 </div>
